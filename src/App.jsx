@@ -3,6 +3,7 @@ import {
   getCurrentSession,
   signInWithEmail,
   signInWithGoogle,
+  signInWithKakao,
   signOut,
   signUpWithEmail,
   subscribeAuthState,
@@ -86,6 +87,10 @@ function App() {
     runAuthAction(() => signInWithGoogle({ redirectTo }), "");
   };
 
+  const handleKakaoSignIn = () => {
+    runAuthAction(() => signInWithKakao({ redirectTo }), "");
+  };
+  
   const handleSignOut = () => {
     runAuthAction(() => signOut(), "로그아웃되었습니다.");
   };
@@ -263,14 +268,19 @@ function App() {
               Google 계정으로 계속하기
             </button>
 
-            <button type="button" className="kakao-button" disabled>
-              <img
-                src="/kakao-icon.png"
-                alt="Kakao logo"
-                className="kakao-icon"
-              />
-              카카오 계정으로 계속하기
-            </button>
+            <button 
+    type="button" 
+    className="kakao-button" 
+    onClick={handleKakaoSignIn} 
+    disabled={isLoading}
+  >
+    <img
+      src="/kakao-icon.png"
+      alt="Kakao logo"
+      className="kakao-icon"
+    />
+    카카오 계정으로 계속하기
+  </button>
           </>
         )}
 

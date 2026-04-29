@@ -1,55 +1,50 @@
+import { supabase } from '../utils/supabase'
+
 export const getCurrentSession = async () => {
-  return {
-    data: {
-      session: null,
-    },
-    error: null,
-  };
-};
+  return supabase.auth.getSession()
+}
 
 export const subscribeAuthState = (callback) => {
-  const subscription = {
-    unsubscribe: () => {
-      // no-op
-    },
-  };
-
-  // 실제 인증 상태 변화는 발생하지 않습니다.
-  return {
-    data: {
-      subscription,
-    },
-  };
-};
+  return supabase.auth.onAuthStateChange(callback)
+}
 
 export const signUpWithEmail = async ({ email, password, redirectTo }) => {
-  return {
-    data: {
-      user: null,
+  return supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo: redirectTo,
     },
-    error: null,
-  };
-};
+  })
+}
 
 export const signInWithEmail = async ({ email, password }) => {
-  return {
-    data: {
-      session: null,
-    },
-    error: null,
-  };
-};
+  return supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
+}
 
 export const signOut = async () => {
-  return {
-    data: null,
-    error: null,
-  };
-};
+  return supabase.auth.signOut()
+}
 
 export const signInWithGoogle = async ({ redirectTo }) => {
-  return {
-    data: null,
-    error: null,
-  };
-};
+  return supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo,
+    },
+  })
+}
+
+
+export const signInWithKakao = async ({ redirectTo }) => {
+  return supabase.auth.signInWithOAuth({
+    provider: 'kakao',
+    options: {
+      redirectTo,
+      scopes: 'profile_nickname profile_image',
+    },
+  })
+}
